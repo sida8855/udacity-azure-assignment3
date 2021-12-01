@@ -9,7 +9,7 @@ trigger:
 name: Azure Pipelines
 variables:
   python.version: '3.7.6'
-  terraform.version: '0.13.4'
+  terraform.version: '1.0.11'
 stages:
 - stage: Provisioning
   displayName: Provisioning
@@ -19,20 +19,21 @@ stages:
     steps:
     - task: TerraformInstaller@0
       inputs:
-        terraformVersion: '0.13.4'
+        terraformVersion: '$(terraform.version)'
     - task: TerraformTaskV2@2
       inputs:
         provider: 'azurerm'
         command: 'init'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
         backendServiceArm: 'Azure subscription 1(09998214-d1cb-445d-a0c2-6e0ebc67bd65)'
-        backendAzureRmResourceGroupName: "terraform"
-        backendAzureRmStorageAccountName: "tstate10"
-        backendAzureRmContainerName: "tstate"
-        backendAzureRmKey: "terraform.tfstate"
+        backendAzureRmResourceGroupName: 'terraform'
+        backendAzureRmStorageAccountName: 'tstate10'
+        backendAzureRmContainerName: 'tstate'
+        backendAzureRmKey: 'terraform.tfstate'
 
     - task: TerraformTaskV2@2
       inputs:
         provider: 'azurerm'
         command: 'plan'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
+        environmentServiceNameAzureRM: 'Azure subscription 1(09998214-d1cb-445d-a0c2-6e0ebc67bd65)'

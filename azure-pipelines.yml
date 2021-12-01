@@ -121,10 +121,6 @@ stages:
       runOnce:
         deploy:
           steps:
-          - task: UsePythonVersion@0
-            inputs:
-              versionSpec: '$(python.version)'
-            displayName: 'Use Python $(python.version)'
           - task: Bash@3
             displayName: 'Run Selenium Tests'
             inputs:
@@ -136,9 +132,12 @@ stages:
                 sudo apt-get install unzip -y
                 sudo apt-get install -y chromium-browser
                 sudo apt-get install -y chromium-chromedriver
+                #python3 -m pip install --upgrade pip
+                python3 -m venv antenv
+                source antenv/bin/activate
                 python3 -m pip install --upgrade pip
-                pip3 --version
-                pip3 install selenium
+                pip --version
+                pip install selenium
                 /usr/bin/chromium-browser --version
                 /usr/bin/chromedriver --version
                 cd $(Pipeline.Workspace)/selenium

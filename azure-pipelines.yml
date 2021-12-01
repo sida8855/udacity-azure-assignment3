@@ -26,10 +26,10 @@ stages:
         command: 'init'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
         backendServiceArm: 'Azure subscription 1(09998214-d1cb-445d-a0c2-6e0ebc67bd65)'
-        #backendAzureRmResourceGroupName: "terraform"
-        #backendAzureRmStorageAccountName: "tstate10"
-        #backendAzureRmContainerName: "tstate"
-        #backendAzureRmKey: "terraform.tfstate"
+        backendAzureRmResourceGroupName: "terraform"
+        backendAzureRmStorageAccountName: "tstate10"
+        backendAzureRmContainerName: "tstate"
+        backendAzureRmKey: "terraform.tfstate"
 
     - task: TerraformTaskV2@2
       inputs:

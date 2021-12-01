@@ -30,7 +30,7 @@ stages:
         backendAzureRmStorageAccountName: 'tstate10'
         backendAzureRmContainerName: 'tstate'
         backendAzureRmKey: 'terraform.tfstate'
-
+        
     - task: TerraformTaskV2@2
       inputs:
         provider: 'azurerm'

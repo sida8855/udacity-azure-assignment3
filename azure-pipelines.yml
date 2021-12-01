@@ -15,7 +15,7 @@ stages:
   displayName: 'Provisioning Infrastructure'
   jobs: 
   - job: 'Terraform'
-    displayName: Provisioning AppService
+    displayName: 'Provisioning Infrastucture'
     steps:
     - task: TerraformInstaller@0
       inputs:
@@ -100,6 +100,7 @@ stages:
           - task: AzureWebApp@1
             displayName: 'Deploy Azure WebApp'
             inputs:
+              azureSubscription: 'webapp'
               appName: 'webapp-api-AppService'
               appType: webApp
               package: $(Pipeline.Workspace)/fakerestapi/fakerestapi-$(Build.BuildId).zip

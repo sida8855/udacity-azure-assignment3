@@ -93,7 +93,7 @@ Alert rule:
 ![Alert rule](./screenshots/Alert_rule.png "Alert rule")
 
 Resource metrics:
-![Resource metrics](./screenshots/Alert_Metrics_matches_alert.png "Resource metrics")
+![Resource metrics](./screenshots/App_Metrics_matches_alert.png "Resource metrics")
 
 * Custom log
 

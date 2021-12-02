@@ -142,7 +142,7 @@ stages:
                 ls -la
                 sudo mkdir -p /var/log/selenium
                 sudo chmod 777 /var/log/selenium
-                sudo python3 -u uitest.py 2>&1 | sudo tee -a '/var/log/selenium/selenium-test-$(Build.BuildId).log'
+                python3 -u uitest.py 2>&1 | sudo tee -a '/var/log/selenium/selenium-test-$(Build.BuildId).log'
                 # copy log file to $(System.DefaultWorkingDirectory)/log/selenium/
                 cd $(System.DefaultWorkingDirectory)
                 mkdir -p log/selenium

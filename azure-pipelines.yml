@@ -252,3 +252,14 @@ stages:
         inputs:
           targetPath: '$(System.DefaultWorkingDirectory)/log/jmeter'
           artifactName: 'drop-jmeter-logs'
+
+- stage: Destroy Infrastructure
+  jobs:
+  - job: 'Terraform'
+    displayName: 'Destroy Infrastucture as last step'
+    steps:
+    - task: TerraformTaskV2@2
+      inputs:
+        provider: 'azurerm'
+        command: 'destroy'
+        environmentServiceNameAzureRM: 'Azure subscription 1(09998214-d1cb-445d-a0c2-6e0ebc67bd65)'

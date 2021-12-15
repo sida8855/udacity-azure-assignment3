@@ -33,22 +33,27 @@ stages:
 #         backendAzureRmContainerName: 'tstate'
 #         backendAzureRmKey: 'terraform.tfstate'
         
-    # - task: TerraformTaskV2@2
-    #   displayName: 'Run terraform plan'
-    #   inputs:
-    #     provider: 'azurerm'
-    #     command: 'plan'
-    #     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
-    #     environmentServiceNameAzureRM: 'Azure subscription 1(09998214-d1cb-445d-a0c2-6e0ebc67bd65)'
-    # - task: TerraformTaskV2@2
-    #   displayName: 'Run terraform apply'
-    #   inputs:
-    #     provider: 'azurerm'
-    #     command: 'apply'
-    #     commandOptions: |
-    #       -auto-approve 
-    #     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
-    #     environmentServiceNameAzureRM: 'Azure subscription 1(09998214-d1cb-445d-a0c2-6e0ebc67bd65)'
+#     - task: TerraformTaskV2@2
+#       displayName: 'Run terraform plan'
+#       inputs:
+#         provider: 'azurerm'
+#         command: 'plan'
+#         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
+#         environmentServiceNameAzureRM: 'Azure subscription 1(09998214-d1cb-445d-a0c2-6e0ebc67bd65)'
+#     - task: TerraformTaskV2@2
+#       displayName: 'Run terraform apply'
+#       inputs:
+#         provider: 'azurerm'
+#         command: 'apply'
+#         commandOptions: |
+#           -auto-approve 
+#         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
+#         environmentServiceNameAzureRM: 'Azure subscription 1(09998214-d1cb-445d-a0c2-6e0ebc67bd65)'
+#     - task: TerraformTaskV2@2
+#       inputs:
+#         provider: 'azurerm'
+#         command: 'destroy'
+#         environmentServiceNameAzureRM: 'Azure subscription 1(09998214-d1cb-445d-a0c2-6e0ebc67bd65)'
 
 # - stage: Build
 #   displayName: 'Build resources'
@@ -253,19 +258,22 @@ stages:
 #           targetPath: '$(System.DefaultWorkingDirectory)/log/jmeter'
 #           artifactName: 'drop-jmeter-logs'
 
+
+
 - stage: Destroy
- jobs:
- - job: 'Terraform'
-   displayName: 'Destroy Infrastucture as last step'
-   steps:
-   - task: TerraformInstaller@0
-     displayName: 'Install terraform'
-     inputs:
-       terraformVersion: '$(terraform.version)'
-   - task: TerraformTaskV2@2
-     displayName: 'Run terraform init'
-     inputs:
-       provider: 'azurerm'
+  displayName: 'Destroy Infrastructure'
+  jobs: 
+  - job: 'Terraform'
+    displayName: 'Provisioning Infrastucture'
+    steps:
+    - task: TerraformInstaller@0
+      displayName: 'Install terraform'
+      inputs:
+        terraformVersion: '$(terraform.version)'
+    - task: TerraformTaskV2@2
+      displayName: 'Run terraform init'
+      inputs:
+        provider: 'azurerm'
         command: 'init'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
         backendServiceArm: 'Azure subscription 1(09998214-d1cb-445d-a0c2-6e0ebc67bd65)'

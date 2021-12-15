@@ -282,6 +282,22 @@ stages:
         backendAzureRmContainerName: 'tstate'
         backendAzureRmKey: 'terraform.tfstate'
     - task: TerraformTaskV2@2
+      displayName: 'Run terraform plan'
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
+        environmentServiceNameAzureRM: 'Azure subscription 1(09998214-d1cb-445d-a0c2-6e0ebc67bd65)'
+    - task: TerraformTaskV2@2
+      displayName: 'Run terraform apply'
+      inputs:
+        provider: 'azurerm'
+        command: 'apply'
+        commandOptions: |
+          -auto-approve 
+        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
+        environmentServiceNameAzureRM: 'Azure subscription 1(09998214-d1cb-445d-a0c2-6e0ebc67bd65)'
+    - task: TerraformTaskV2@2
       inputs:
         provider: 'azurerm'
         command: 'destroy'

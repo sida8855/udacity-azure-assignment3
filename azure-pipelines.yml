@@ -9,7 +9,7 @@ trigger:
 name: Azure Pipelines
 variables:
   python.version: '3.6.9'
-  terraform.version: '1.0.11'
+  terraform.version: '1.1.0'
 stages:
 # - stage: Infrastructure
 #   displayName: 'Provisioning Infrastructure'
@@ -288,17 +288,33 @@ stages:
         command: 'plan'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
         environmentServiceNameAzureRM: 'Azure subscription 1(09998214-d1cb-445d-a0c2-6e0ebc67bd65)'
+        backendServiceArm: 'Azure subscription 1(09998214-d1cb-445d-a0c2-6e0ebc67bd65)'
+        backendAzureRmResourceGroupName: 'terraform'
+        backendAzureRmStorageAccountName: 'tstate10'
+        backendAzureRmContainerName: 'tstate'
+        backendAzureRmKey: 'terraform.tfstate'
     - task: TerraformTaskV2@2
       displayName: 'Run terraform apply'
       inputs:
         provider: 'azurerm'
         command: 'apply'
-        commandOptions: |
-          -auto-approve 
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
         environmentServiceNameAzureRM: 'Azure subscription 1(09998214-d1cb-445d-a0c2-6e0ebc67bd65)'
+        backendServiceArm: 'Azure subscription 1(09998214-d1cb-445d-a0c2-6e0ebc67bd65)'
+        backendAzureRmResourceGroupName: 'terraform'
+        backendAzureRmStorageAccountName: 'tstate10'
+        backendAzureRmContainerName: 'tstate'
+        backendAzureRmKey: 'terraform.tfstate'
     - task: TerraformTaskV2@2
       inputs:
         provider: 'azurerm'
         command: 'destroy'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
         environmentServiceNameAzureRM: 'Azure subscription 1(09998214-d1cb-445d-a0c2-6e0ebc67bd65)'
+        backendServiceArm: 'Azure subscription 1(09998214-d1cb-445d-a0c2-6e0ebc67bd65)'
+        backendAzureRmResourceGroupName: 'terraform'
+        backendAzureRmStorageAccountName: 'tstate10'
+        backendAzureRmContainerName: 'tstate'
+        backendAzureRmKey: 'terraform.tfstate'
+        
+        

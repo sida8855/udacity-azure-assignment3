@@ -253,7 +253,7 @@ stages:
           targetPath: '$(System.DefaultWorkingDirectory)/log/jmeter'
           artifactName: 'drop-jmeter-logs'
 
-- stage: Destroy Infrastructure
+- stage: Destroy
   jobs:
   - job: 'Terraform'
     displayName: 'Destroy Infrastucture as last step'

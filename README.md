@@ -96,5 +96,4 @@ Resource metrics:
 ![Resource metrics](./screenshots/App_Metrics_matches_alert.png "Resource metrics")
 
 * Custom log
-
-TODO
+![Custom log](./screenshots/custom_log.png "Custom log")

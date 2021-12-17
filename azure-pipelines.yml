@@ -165,103 +165,103 @@ stages:
               targetPath: '$(System.DefaultWorkingDirectory)/log/selenium/selenium-test-$(Build.BuildId).log'
               artifactName: 'selenium-logs'
 
-  - job: 'Postman_Test'
-    displayName: 'Postman Integration Tests'
-    pool:
-      vmImage: 'ubuntu-18.04'
-    steps:    
-    - task: NodeTool@0
-      displayName: 'Install Node v12.X'
-      inputs:
-        versionSpec: '12.x'
-    - task: Bash@3
-      displayName: 'Install Newman CLI'
-      inputs:
-        targetType: 'inline'
-        script: |
-          npm install -g newman
-          mkdir -p output/newman/
-    - task: Bash@3
-      displayName: 'Run Postman Regression and Validation Test'
-      inputs:
-        targetType: 'inline'
-        script: |
-          newman run automatedtesting/postman/postman-tests.postman_collection.json \
-           --environment automatedtesting/postman/walkthrough.postman_environment.json \
-           --suppress-exit-code \
-           --delay-request 5000 \
-           --reporters cli,junit --reporter-junit-export output/newman/test_result.xml
-    - task: PublishTestResults@2
-      displayName: 'Publish Postman Regression and Validation Test Results'
-      inputs:
-        testRunner: 'JUnit'
-        searchFolder: '$(System.DefaultWorkingDirectory)/output/newman/'
-        testResultsFiles: '*.xml'
-        mergeTestResults: true
-        testRunTitle: 'Postman Test Results'
-  - job: 'Jmeter_tests'
-    displayName: 'JMeter Tests'
-    pool:
-      vmImage: 'ubuntu-18.04'
-    steps:     
-      - task: Bash@3
-        displayName: 'Install JMeter'
-        inputs:
-          targetType: 'inline'
-          script: |
-            sudo apt-get install openjdk-11-jre-headless -y
-            java -version
-            wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.4.1.tgz -O jmeter.tgz
-            tar xzvf jmeter.tgz
-            rm jmeter.tgz
-            apache-jmeter-5.4.1/bin/jmeter --version
-            mkdir -p log/jmeter
-      - task: Bash@3
-        displayName: 'Run JMeter Stress Test'
-        inputs:
-          targetType: 'inline'
-          script: |
-            apache-jmeter-5.4.1/bin/jmeter -n -t automatedtesting/jmeter/stress_test.jmx \
-                                     -l log/jmeter/stress-test-result.csv \
-                                     -e -f -o log/jmeter/stress-test-report.html \
-                                     -j log/jmeter/jmeter-stress-test.log
-      - task: Bash@3
-        displayName: 'Run JMeter Endurance Test'
-        inputs:
-          targetType: 'inline'
-          script: |
-            apache-jmeter-5.4.1/bin/jmeter -n -t automatedtesting/jmeter/endurance_test.jmx \
-                                     -l log/jmeter/endurance-test-result.csv \
-                                     -e -f -o log/jmeter/endurance-test-report.html \
-                                     -j log/jmeter/jmeter-endurance-test.log      
-      - task: ArchiveFiles@2
-        displayName: 'Archive JMeter stress test HTML report'
-        inputs:
-          rootFolderOrFile: '$(System.DefaultWorkingDirectory)/log/jmeter/stress-test-report.html'
-          includeRootFolder: false
-          archiveType: 'zip'
-          archiveFile: '$(System.DefaultWorkingDirectory)/log/jmeter/stress-test-html-report-$(Build.BuildId).zip'
-          verbose: true
-      - task: ArchiveFiles@2
-        displayName: 'Archive JMeter endurance test HTML report'
-        inputs:
-          rootFolderOrFile: '$(System.DefaultWorkingDirectory)/log/jmeter/endurance-test-report.html'
-          includeRootFolder: false
-          archiveType: 'zip'
-          archiveFile: '$(System.DefaultWorkingDirectory)/log/jmeter/endurance-test-html-report-$(Build.BuildId).zip'
-          verbose: true
-      - task: Bash@3
-        displayName: 'Clean Up Tests'
-        inputs:
-          targetType: 'inline'
-          script: |
-            rm -rf log/jmeter/stress-test-report.html
-            rm -rf log/jmeter/endurance-test-report.html
-      - task: PublishPipelineArtifact@1
-        displayName: 'Publish JMeter logs'
-        inputs:
-          targetPath: '$(System.DefaultWorkingDirectory)/log/jmeter'
-          artifactName: 'drop-jmeter-logs'
+  # - job: 'Postman_Test'
+  #   displayName: 'Postman Integration Tests'
+  #   pool:
+  #     vmImage: 'ubuntu-18.04'
+  #   steps:    
+  #   - task: NodeTool@0
+  #     displayName: 'Install Node v12.X'
+  #     inputs:
+  #       versionSpec: '12.x'
+  #   - task: Bash@3
+  #     displayName: 'Install Newman CLI'
+  #     inputs:
+  #       targetType: 'inline'
+  #       script: |
+  #         npm install -g newman
+  #         mkdir -p output/newman/
+  #   - task: Bash@3
+  #     displayName: 'Run Postman Regression and Validation Test'
+  #     inputs:
+  #       targetType: 'inline'
+  #       script: |
+  #         newman run automatedtesting/postman/postman-tests.postman_collection.json \
+  #          --environment automatedtesting/postman/walkthrough.postman_environment.json \
+  #          --suppress-exit-code \
+  #          --delay-request 5000 \
+  #          --reporters cli,junit --reporter-junit-export output/newman/test_result.xml
+  #   - task: PublishTestResults@2
+  #     displayName: 'Publish Postman Regression and Validation Test Results'
+  #     inputs:
+  #       testRunner: 'JUnit'
+  #       searchFolder: '$(System.DefaultWorkingDirectory)/output/newman/'
+  #       testResultsFiles: '*.xml'
+  #       mergeTestResults: true
+  #       testRunTitle: 'Postman Test Results'
+  # - job: 'Jmeter_tests'
+  #   displayName: 'JMeter Tests'
+  #   pool:
+  #     vmImage: 'ubuntu-18.04'
+  #   steps:     
+  #     - task: Bash@3
+  #       displayName: 'Install JMeter'
+  #       inputs:
+  #         targetType: 'inline'
+  #         script: |
+  #           sudo apt-get install openjdk-11-jre-headless -y
+  #           java -version
+  #           wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.4.1.tgz -O jmeter.tgz
+  #           tar xzvf jmeter.tgz
+  #           rm jmeter.tgz
+  #           apache-jmeter-5.4.1/bin/jmeter --version
+  #           mkdir -p log/jmeter
+  #     - task: Bash@3
+  #       displayName: 'Run JMeter Stress Test'
+  #       inputs:
+  #         targetType: 'inline'
+  #         script: |
+  #           apache-jmeter-5.4.1/bin/jmeter -n -t automatedtesting/jmeter/stress_test.jmx \
+  #                                    -l log/jmeter/stress-test-result.csv \
+  #                                    -e -f -o log/jmeter/stress-test-report.html \
+  #                                    -j log/jmeter/jmeter-stress-test.log
+  #     - task: Bash@3
+  #       displayName: 'Run JMeter Endurance Test'
+  #       inputs:
+  #         targetType: 'inline'
+  #         script: |
+  #           apache-jmeter-5.4.1/bin/jmeter -n -t automatedtesting/jmeter/endurance_test.jmx \
+  #                                    -l log/jmeter/endurance-test-result.csv \
+  #                                    -e -f -o log/jmeter/endurance-test-report.html \
+  #                                    -j log/jmeter/jmeter-endurance-test.log      
+  #     - task: ArchiveFiles@2
+  #       displayName: 'Archive JMeter stress test HTML report'
+  #       inputs:
+  #         rootFolderOrFile: '$(System.DefaultWorkingDirectory)/log/jmeter/stress-test-report.html'
+  #         includeRootFolder: false
+  #         archiveType: 'zip'
+  #         archiveFile: '$(System.DefaultWorkingDirectory)/log/jmeter/stress-test-html-report-$(Build.BuildId).zip'
+  #         verbose: true
+  #     - task: ArchiveFiles@2
+  #       displayName: 'Archive JMeter endurance test HTML report'
+  #       inputs:
+  #         rootFolderOrFile: '$(System.DefaultWorkingDirectory)/log/jmeter/endurance-test-report.html'
+  #         includeRootFolder: false
+  #         archiveType: 'zip'
+  #         archiveFile: '$(System.DefaultWorkingDirectory)/log/jmeter/endurance-test-html-report-$(Build.BuildId).zip'
+  #         verbose: true
+  #     - task: Bash@3
+  #       displayName: 'Clean Up Tests'
+  #       inputs:
+  #         targetType: 'inline'
+  #         script: |
+  #           rm -rf log/jmeter/stress-test-report.html
+  #           rm -rf log/jmeter/endurance-test-report.html
+  #     - task: PublishPipelineArtifact@1
+  #       displayName: 'Publish JMeter logs'
+  #       inputs:
+  #         targetPath: '$(System.DefaultWorkingDirectory)/log/jmeter'
+  #         artifactName: 'drop-jmeter-logs'
 
 
 
